@@ -14,6 +14,17 @@ runtime_options: {version: 2, client_version: '3', server_version: python3-sandb
 metadata: {}
 startup_form: Homepage
 db_schema:
+  content:
+    title: content
+    client: none
+    server: full
+    columns:
+    - name: id
+      admin_ui: {width: 200}
+      type: number
+    - name: data
+      admin_ui: {width: 200}
+      type: media
   users:
     title: Users
     client: none
@@ -37,4 +48,7 @@ db_schema:
     - name: email_confirmation_key
       admin_ui: {width: 200}
       type: string
+    - name: last_login
+      admin_ui: {width: 200}
+      type: datetime
 renamed: true
