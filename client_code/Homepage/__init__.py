@@ -11,4 +11,8 @@ class Homepage(HomepageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     anvil.users.login_with_form()
-    
+
+  def process_checking_click(self, **event_args):
+    self.ai_check_image
+
+
