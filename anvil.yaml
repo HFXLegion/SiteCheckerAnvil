@@ -16,7 +16,7 @@ startup_form: Homepage
 db_schema:
   content:
     title: content
-    client: none
+    client: search
     server: full
     columns:
     - name: id
@@ -51,4 +51,7 @@ db_schema:
     - name: last_login
       admin_ui: {width: 200}
       type: datetime
+    - name: n_password_failures
+      admin_ui: {width: 200}
+      type: number
 renamed: true

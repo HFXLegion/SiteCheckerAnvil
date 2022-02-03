@@ -31,7 +31,7 @@ components:
       source: '', spacing_below: small, background: '', horizontal_align: center}
     name: database_check_image
     layout_properties: {grid_position: 'EBHJGQ,PAAVVU'}
-    event_bindings: {show: database_check_image_show}
+    event_bindings: {}
   - type: Label
     properties: {}
     name: database_check_label
