@@ -54,4 +54,15 @@ db_schema:
     - name: n_password_failures
       admin_ui: {width: 200}
       type: number
+  trigger_words:
+    title: trigger_words
+    client: none
+    server: full
+    columns:
+    - name: word
+      admin_ui: {width: 200}
+      type: string
+    - name: response
+      admin_ui: {width: 200}
+      type: string
 renamed: true
