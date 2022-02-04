@@ -65,4 +65,18 @@ db_schema:
     - name: response
       admin_ui: {width: 200}
       type: string
+  sites_rating:
+    title: sites_rating
+    client: none
+    server: full
+    columns:
+    - name: site
+      admin_ui: {width: 200}
+      type: string
+    - name: user
+      admin_ui: {width: 200}
+      type: string
+    - name: rating
+      admin_ui: {width: 200}
+      type: number
 renamed: true

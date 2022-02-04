@@ -17,5 +17,4 @@ class Homepage(HomepageTemplate):
     ContentManager.get_good_icon()
 
   def process_checking_click(self, **event_args):
-    re.find_all()
-
+    print(anvil.server.call('content_check', self.url_entry.text))
