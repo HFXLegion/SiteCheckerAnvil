@@ -6,6 +6,7 @@ from anvil.tables import app_tables
 import anvil.server
 import anvil.http as requests
 import re
+from html.parser import HTMLParser
 
 @anvil.server.portable_class
 class SiteParser:
