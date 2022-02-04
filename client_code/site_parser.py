@@ -6,7 +6,40 @@ from anvil.tables import app_tables
 import anvil.server
 import anvil.http as requests
 import re
-from html.parser import HTMLParser
+from html.parser import HTMLParser as HTMLParserBase
+
+
+class HTMLParser(HTMLParserBase):
+    def handle_starttag(self, tag: str, attrs) -> None:
+      if self.class_ != None:
+        for attribute in attrs:
+          if attribute[0] == "class" and attribute[1] == self.class_:
+            self.__on_tag = True
+            break
+        else:
+          if tag in self.tags:
+              self.__on_tag = True
+        return super().handle_starttag(tag, attrs)
+
+    def handle_data(self, data: str) -> None:
+        if self.__on_tag:
+            self.container.append(data)
+        return super().handle_data(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        self.__on_tag = False
+        return super().handle_endtag(tag)
+
+    def get_tags_content(self, html, tags=(), class_=None):
+        self.class_ = class_
+        self.__on_tag = False
+        self.container = list()
+        if not isinstance(tags, (tuple, list)):
+            tags = (tags)
+        self.tags = tags
+        super().feed(html)
+        return self.container
+
 
 @anvil.server.portable_class
 class SiteParser:
@@ -36,16 +69,8 @@ class SiteParser:
         site = url.split("/")[0].strip()
         return (protocol + url), site, (protocol + site)
 
-    def find_all(self, tags=()):
-        tags_container = self.Tags()
-        if isinstance(tags, (tuple, list)):
-            for tag in tags:
-                tags_container.extend(self.find_all(tag))
-        else:
-            #print(re.findall(rf"<{tags}.*>.*</{tags}>", self.html))
-            tags_container.extend(self.Tag(tags, x) for x in re.findall(rf"<{tags}.*>.*</{tags}>", self.html))
-        return tags_container
-
+    def find_all(self, tags=(), class_=None):
+        return HTMLParser().get_tags_content(self.html, tags, class_)
 
     def get_headers(self):
         return self.find_all(("h1", "h2", "h3", "h4", "h5", "h6"))

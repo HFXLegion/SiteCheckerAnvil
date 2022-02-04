@@ -23,9 +23,7 @@ def database_check(url):
 # Method for checking site content
 @anvil.server.callable
 def content_check(url):
-    url, site, domain = String.fit_url(url)
-    # Combine text of all main web page tags
-    main_text = ", ".join(SiteParser(url).get_main_text().get_tags_text()).lower()
+    main_text = ", ".join(SiteParser(url).get_main_text()).lower()
     print(main_text)
     total = set()  # Define set for trigger words
     for row in app_tables.trigger_words.search():
@@ -35,11 +33,11 @@ def content_check(url):
 
 # Method for checking site rating
 @anvil.server.callable
-def rating_check(url):
-    url, site, domain = String.fit_url(url)
+def rating_check(site):
     url = "https://www.mywot.com/scorecard/" + site  # Define URL with site rating
     try:  # Try to get rating value
-        rating = float(SiteParser(url).get_tags("div")[0].text)
+        rating = (SiteParser(url).find_all("div", "StyledScorecardHeader__Detail-sc-1j5xgrs-12 gfahVA"))
+        print(rating)
     except IndexError:  # If site have no rating
         return -1
     else:

@@ -1,3 +1,10 @@
+import anvil.server
+import anvil.users
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+
+@anvil.server.portable_class
 class String:
 
     @staticmethod
@@ -70,3 +77,4 @@ class String:
       str1 = str1 + ' ' * (len(str2) - len(str1))
       str2 = str2 + ' ' * (len(str1) - len(str2))
       return int(sum(1 if i == j else 0 for i, j in zip(str1, str2)) / float(len(str1))*100)
+
