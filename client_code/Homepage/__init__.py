@@ -61,7 +61,13 @@ class Homepage(HomepageTemplate):
       self.database_check_image.source = ContentManager.get_bad_icon()
       
     with anvil.server.no_loading_indicator:
-      content = anvil.server.call('content_check', url)
+      try:
+        content = anvil.server.call('content_check', url)
+      except:
+        self.clear_content()
+        self.database_check_label.text = "Ошибка при выполнении запроса"
+        self.database_check_image.source = ContentManager.get_bad_icon()
+        return
     if "casino" in content:
       self.ai_check_label.text = "Сайт похож на казино"
       self.ai_check_image.source = ContentManager.get_bad_icon()

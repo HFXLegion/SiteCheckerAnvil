@@ -58,7 +58,8 @@ class SiteParser:
                 yield tag.text
 
     def __init__(self, url):
-        self.html = requests.request(self.fit_url(url)[0]).get_bytes().decode()
+      self.html = requests.request(self.fit_url(url)[0]).get_bytes().decode()
+        
 
     @staticmethod
     def fit_url(url):
