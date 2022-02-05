@@ -33,6 +33,8 @@ class Homepage(HomepageTemplate):
     self.rate_this_site.visible = False
     self.like.visible = False
     self.dislike.visible = False
+    self.smile.visible = False
+    self.thanks.visible = False
     
   def check_user(self):
     if anvil.users.get_user() is None:
@@ -46,7 +48,8 @@ class Homepage(HomepageTemplate):
     
     url, site, domain = String.fit_url(self.url_entry.text)
     
-    database = anvil.server.call('database_check', url)
+    with anvil.server.no_loading_indicator:
+      database = anvil.server.call('database_check', url)
     if not database:
       self.database_check_label.text = "Сайт является проверенным"
       self.database_check_image.source = ContentManager.get_good_icon()
@@ -57,7 +60,8 @@ class Homepage(HomepageTemplate):
       self.database_check_label.text = "Сайт пытается быть похожим на популярный"
       self.database_check_image.source = ContentManager.get_bad_icon()
       
-    content = anvil.server.call('content_check', url)
+    with anvil.server.no_loading_indicator:
+      content = anvil.server.call('content_check', url)
     if "casino" in content:
       self.ai_check_label.text = "Сайт похож на казино"
       self.ai_check_image.source = ContentManager.get_bad_icon()
@@ -77,15 +81,17 @@ class Homepage(HomepageTemplate):
       self.ai_check_label.text = "Системе не удалось определить тип сайта"
       self.ai_check_image.source = ContentManager.get_warning_icon()
       
-    rate = anvil.server.call('rating_check', site)
+    with anvil.server.no_loading_indicator:      
+      rate = anvil.server.call('rating_check', site)
     if rate < 3.5:
       self.rating_check_label.text = f"У сайта плохие отзывы ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_bad_icon()
     elif rate >= 3.5:
       self.rating_check_label.text = f"У сайта хорошие отзывы  ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_good_icon()
-      
-    site_rating = anvil.server.call('get_site_rating', site)
+    
+    with anvil.server.no_loading_indicator:
+      site_rating = anvil.server.call('get_site_rating', site)
     self.users_rating_text.text = f"Рейтинг сайта: {site_rating}"
     if not site_rating:
       self.users_rating_image.source = ContentManager.get_warning_icon()
@@ -102,11 +108,17 @@ class Homepage(HomepageTemplate):
   def like_click(self, **event_args):
     current_user = self.check_user()
     site = String.fit_url(self.url_entry.text)[1]
-    anvil.server.call('add_user_rating', site, current_user, True)
+    with anvil.server.no_loading_indicator:
+      anvil.server.call('add_user_rating', site, current_user, True)
+    self.smile.visible = True
+    self.thanks.visible = True
 
   def dislike_click(self, **event_args):
     site = String.fit_url(self.url_entry.text)[1]
     current_user = self.check_user()
-    anvil.server.call('add_user_rating', site, current_user, False)
+    with anvil.server.no_loading_indicator:
+      anvil.server.call('add_user_rating', site, current_user, False)
+    self.smile.visible = True
+    self.thanks.visible = True
 
 
