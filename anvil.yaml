@@ -73,10 +73,11 @@ db_schema:
     - name: site
       admin_ui: {width: 200}
       type: string
-    - name: user
-      admin_ui: {width: 200}
-      type: string
     - name: rating
       admin_ui: {width: 200}
-      type: number
+      type: bool
+    - name: user
+      admin_ui: {width: 200}
+      type: link_single
+      target: users
 renamed: true

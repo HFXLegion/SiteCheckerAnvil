@@ -18,19 +18,31 @@ class Homepage(HomepageTemplate):
   def get_good_icon(self, **event_args):
     ContentManager.get_good_icon()
     
-  def clear_icons(self):
+    
+  def clear_content(self):
     self.database_check_image.source = None
     self.ai_check_image.source = None
     self.rating_check_image.source = None
+    self.users_rating_image.source = None
     
-  def clear_text(self):
     self.database_check_label.text = "Поиск сайта в базе данных..."
     self.ai_check_label.text = "Проверка содержимого страницы..."
-    self.rating_check_label.text = "Проверка рейтинга сайта..."
+    self.rating_check_label.text = "Проверка отзывов сайта..."
+    self.users_rating_text.text = "Составление рейтинга сайта..."
+    
+    self.rate_this_site.visible = False
+    self.like.visible = False
+    self.dislike.visible = False
+    
+  def check_user(self):
+    if anvil.users.get_user() is None:
+      return anvil.users.login_with_form()
+    else:
+      return anvil.users.get_user()
+    
 
   def process_checking_click(self, **event_args):
-    self.clear_icons()
-    self.clear_text()
+    self.clear_content()
     
     url, site, domain = String.fit_url(self.url_entry.text)
     
@@ -65,11 +77,36 @@ class Homepage(HomepageTemplate):
       self.ai_check_label.text = "Системе не удалось определить тип сайта"
       self.ai_check_image.source = ContentManager.get_warning_icon()
       
-    rating = anvil.server.call('rating_check', site)
-    if rating < 3.5:
-      self.rating_check_label.text = f"У сайта низкий рейтинг ({rating} из 5)"
+    rate = anvil.server.call('rating_check', site)
+    if rate < 3.5:
+      self.rating_check_label.text = f"У сайта плохие отзывы ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_bad_icon()
-    elif rating >= 3.5:
-      self.rating_check_label.text = f"У сайта высокий рейтинг  ({rating} из 5)"
+    elif rate >= 3.5:
+      self.rating_check_label.text = f"У сайта хорошие отзывы  ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_good_icon()
+      
+    site_rating = anvil.server.call('get_site_rating', site)
+    self.users_rating_text.text = f"Рейтинг сайта: {site_rating}"
+    if not site_rating:
+      self.users_rating_image.source = ContentManager.get_warning_icon()
+    elif site_rating > 0:
+      self.users_rating_image.source = ContentManager.get_good_icon()
+    elif site_rating < 0:
+      self.users_rating_image.source = ContentManager.get_bad_icon()
+      
+    self.rate_this_site.visible = True
+    self.like.visible = True
+    self.dislike.visible = True
     
+
+  def like_click(self, **event_args):
+    current_user = self.check_user()
+    site = String.fit_url(self.url_entry.text)[1]
+    anvil.server.call('add_user_rating', site, current_user, True)
+
+  def dislike_click(self, **event_args):
+    site = String.fit_url(self.url_entry.text)[1]
+    current_user = self.check_user()
+    anvil.server.call('add_user_rating', site, current_user, False)
+
+

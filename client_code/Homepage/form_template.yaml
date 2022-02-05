@@ -5,12 +5,12 @@ container:
   event_bindings: {}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{"EVMYBN":15,"OBPBZG":45,"PAAVVU":15,"XGNYGI":45,"XWCUCK":15,"QECVKY":45}'}
+  properties: {col_widths: '{"EVMYBN":15,"OBPBZG":45,"PAAVVU":15,"XGNYGI":45,"XWCUCK":15,"QECVKY":45,"AOWOJQ":15,"VFBBHG":45}'}
   name: content_panel
   layout_properties: {slot: default}
   components:
   - type: TextArea
-    properties: {role: null, align: left, height: '', tooltip: '', placeholder: Paste URL here...,
+    properties: {role: null, align: left, height: '', tooltip: '', placeholder: Введите URL ссылку...,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: false, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
@@ -19,7 +19,7 @@ components:
     event_bindings: {}
   - type: Button
     properties: {role: primary-color, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Check Site, font_size: null, font: '',
+      foreground: '', visible: true, text: Начать Проверку, font_size: null, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: process_checking
@@ -61,14 +61,45 @@ components:
     name: rating_check_label
     layout_properties: {grid_position: 'QCIGAT,QECVKY'}
     event_bindings: {}
+  - type: Image
+    properties: {role: null, vertical_align: center, height: 29, tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
+      source: '', spacing_below: small, background: '', horizontal_align: center}
+    name: users_rating_image
+    layout_properties: {grid_position: 'UIBPVR,AOWOJQ'}
+    event_bindings: {}
+  - type: Label
+    properties: {}
+    name: users_rating_text
+    layout_properties: {grid_position: 'UIBPVR,VFBBHG'}
+    event_bindings: {}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: 'theme:Black', visible: false, font_size: 24, content: 'Оцените
+        сайт:', font: Arial, spacing_above: small, spacing_below: small, data: null,
+      background: '', format: plain_text}
+    name: rate_this_site
+    layout_properties: {grid_position: 'WLPJON,ZEPXEK', row_background: 'theme:Primary
+        500'}
+    event_bindings: {}
   - type: Button
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: button_2, font_size: null, font: '', spacing_above: small,
+      foreground: '', visible: false, text: '', font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:apple'}
-    name: button_2
-    layout_properties: {grid_position: 'QRUQHY,CCDXDK'}
-    event_bindings: {}
+      underline: false, icon: 'fa:thumbs-up'}
+    name: like
+    layout_properties: {grid_position: 'QRUQHY,JFMWZS', full_width_row: false, row_background: 'theme:Gray
+        300'}
+    event_bindings: {click: like_click}
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: false, text: '', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:thumbs-down'}
+    name: dislike
+    layout_properties: {grid_position: 'QRUQHY,JZSIXH', full_width_row: false, row_background: 'theme:Gray
+        300'}
+    event_bindings: {click: dislike_click}
   event_bindings: {}
 - type: FlowPanel
   properties: {}
@@ -76,7 +107,7 @@ components:
   layout_properties: {slot: nav-right}
 - type: Button
   properties: {role: primary-color, align: center, tooltip: '', border: '', enabled: true,
-    foreground: '', visible: true, text: Site Checker, font_size: null, font: '',
+    foreground: '', visible: true, text: Проверка Сайтов, font_size: null, font: '',
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: button_1
