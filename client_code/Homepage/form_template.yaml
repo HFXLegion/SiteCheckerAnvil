@@ -5,7 +5,9 @@ container:
   event_bindings: {}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{"EVMYBN":15,"OBPBZG":45,"PAAVVU":15,"XGNYGI":45,"XWCUCK":15,"QECVKY":45,"AOWOJQ":15,"VFBBHG":45,"UMKGLY":20,"OVMRSQ":40}'}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"EVMYBN":15,"OBPBZG":45,"PAAVVU":15,"XGNYGI":45,"XWCUCK":15,"QECVKY":45,"AOWOJQ":15,"VFBBHG":45,"UMKGLY":20,"OVMRSQ":40}',
+    spacing_below: small, background: ''}
   name: content_panel
   layout_properties: {slot: default}
   components:
@@ -123,11 +125,10 @@ components:
   properties: {}
   name: navbar_links
   layout_properties: {slot: nav-right}
-- type: Button
-  properties: {role: primary-color, align: center, tooltip: '', border: '', enabled: true,
-    foreground: '', visible: true, text: Проверка Сайтов, font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
-    bold: false, underline: false, icon: ''}
-  name: button_1
+- type: RichText
+  properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+    foreground: '', visible: true, font_size: null, content: Проверка сайтов, font: '',
+    spacing_above: small, spacing_below: small, data: null, background: '', format: markdown}
+  name: title
   layout_properties: {slot: title}
   event_bindings: {}
