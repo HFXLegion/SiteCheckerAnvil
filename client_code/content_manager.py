@@ -5,11 +5,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 class ContentManager:
-  def get_good_icon(self, **event_args):
+  @staticmethod
+  def get_good_icon(**event_args):
       return app_tables.content.get(id=0)["data"]
-    
-  def get_warning_icon(self, **event_args):
+  
+  @staticmethod
+  def get_warning_icon(**event_args):
       return app_tables.content.get(id=1)["data"]
-    
-  def get_bad_icon(self, **event_args):
+  
+  @staticmethod
+  def get_bad_icon(**event_args):
       return app_tables.content.get(id=2)["data"]

@@ -24,7 +24,6 @@ def database_check(url):
 @anvil.server.callable
 def content_check(url):
     main_text = ", ".join(SiteParser(url).get_main_text()).lower()
-    print(main_text)
     total = set()  # Define set for trigger words
     for row in app_tables.trigger_words.search():
       if row['word'] in main_text:
@@ -35,11 +34,12 @@ def content_check(url):
 @anvil.server.callable
 def rating_check(site):
     url = "https://www.mywot.com/scorecard/" + site  # Define URL with site rating
-    try:  # Try to get rating value
-        rating = (SiteParser(url).find_all("div", "StyledScorecardHeader__Detail-sc-1j5xgrs-12 gfahVA"))
-        print(rating)
-    except IndexError:  # If site have no rating
-        return -1
-    else:
-        return rating
+    for data in (SiteParser(url).find_all("div", "StyledScorecardHeader__Detail-sc-1j5xgrs-12 gfahVA")):
+      try:
+        rating = float(data)
+        if 0 <= rating <= 5:
+          break
+      except ValueError:
+        pass
+    return rating
 

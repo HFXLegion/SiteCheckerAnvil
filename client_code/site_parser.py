@@ -24,6 +24,7 @@ class HTMLParser(HTMLParserBase):
     def handle_data(self, data: str) -> None:
         if self.__on_tag:
             self.container.append(data)
+            self.__on_tag = False
         return super().handle_data(data)
 
     def handle_endtag(self, tag: str) -> None:

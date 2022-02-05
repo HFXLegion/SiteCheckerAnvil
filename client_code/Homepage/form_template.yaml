@@ -5,7 +5,7 @@ container:
   event_bindings: {}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"EVMYBN":15,"OBPBZG":45,"PAAVVU":15,"XGNYGI":45,"XWCUCK":15,"QECVKY":45}'}
   name: content_panel
   layout_properties: {slot: default}
   components:
@@ -26,7 +26,7 @@ components:
     layout_properties: {grid_position: 'GNGZGT,RQGDVT'}
     event_bindings: {click: process_checking_click}
   - type: Image
-    properties: {role: null, vertical_align: center, height: 0, tooltip: '', border: '',
+    properties: {role: null, vertical_align: center, height: 28, tooltip: '', border: '',
       foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
       source: '', spacing_below: small, background: '', horizontal_align: center}
     name: database_check_image
@@ -38,7 +38,7 @@ components:
     layout_properties: {grid_position: 'EBHJGQ,XGNYGI'}
     event_bindings: {}
   - type: Image
-    properties: {role: null, vertical_align: center, height: 0, tooltip: '', border: '',
+    properties: {role: null, vertical_align: center, height: 26, tooltip: '', border: '',
       foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
       source: '', spacing_below: small, background: '', horizontal_align: center}
     name: ai_check_image
@@ -50,17 +50,26 @@ components:
     layout_properties: {grid_position: 'PUEZVM,OBPBZG'}
     event_bindings: {}
   - type: Image
-    properties: {role: null, vertical_align: center, height: 0, tooltip: '', border: '',
+    properties: {role: null, vertical_align: center, height: 29, tooltip: '', border: '',
       foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
       source: '', spacing_below: small, background: '', horizontal_align: center}
     name: rating_check_image
-    layout_properties: {grid_position: 'QCIGAT,YKCSLN'}
+    layout_properties: {grid_position: 'QCIGAT,XWCUCK'}
     event_bindings: {}
   - type: Label
     properties: {}
     name: rating_check_label
     layout_properties: {grid_position: 'QCIGAT,QECVKY'}
     event_bindings: {}
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: button_2, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:apple'}
+    name: button_2
+    layout_properties: {grid_position: 'QRUQHY,CCDXDK'}
+    event_bindings: {}
+  event_bindings: {}
 - type: FlowPanel
   properties: {}
   name: navbar_links
