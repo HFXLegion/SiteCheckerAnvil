@@ -7,6 +7,7 @@ import anvil.server
 import anvil.http as requests
 import re
 from html.parser import HTMLParser as HTMLParserBase
+from .string import String
 
 
 class HTMLParser(HTMLParserBase):
@@ -58,18 +59,8 @@ class SiteParser:
                 yield tag.text
 
     def __init__(self, url):
-      self.html = requests.request(self.fit_url(url)[0]).get_bytes().decode()
+      self.html = requests.request(String.fit_url(url)[0]).get_bytes().decode()
         
-
-    @staticmethod
-    def fit_url(url):
-        if not url.startswith("http"):
-            protocol = "https://"
-        else:
-            protocol = url.split("//")[0] + "//"
-        url = url.replace("http://", "").replace("https://", "").replace("www.", "")
-        site = url.split("/")[0].strip()
-        return (protocol + url), site, (protocol + site)
 
     def find_all(self, tags=(), class_=None):
         return HTMLParser().get_tags_content(self.html, tags, class_)

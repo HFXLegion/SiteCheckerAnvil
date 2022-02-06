@@ -72,6 +72,7 @@ class String:
         site = url.split("/")[0].strip()
         return (protocol + url), site, (protocol + site)
 
+    # Get similarity in percent between two strings
     @staticmethod
     def get_similarity(str1, str2):
       str1 = str1 + ' ' * (len(str2) - len(str1))

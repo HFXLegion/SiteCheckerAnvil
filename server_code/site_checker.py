@@ -25,9 +25,9 @@ def database_check(url):
 def content_check(url):
     main_text = ", ".join(SiteParser(url).get_main_text()).lower()
     total = set()  # Define set for trigger words
-    for row in app_tables.trigger_words.search():
-      if row['word'] in main_text:
-        total.add(row['response'])
+    for row in app_tables.trigger_words.search(): # Iter database rows with words and responses
+      if row['word'] in main_text: # If row word in site's main text
+        total.add(row['response']) # Add row response to set
     return tuple(total)  # Return tuple of trigger words
 
 # Method for checking site rating
