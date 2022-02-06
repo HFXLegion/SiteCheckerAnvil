@@ -43,13 +43,7 @@ class Homepage(HomepageTemplate):
     else:
       return anvil.users.get_user()
     
-  # If user clicks process button
-  def process_checking_click(self, **event_args):
-    self.clear_content() # Refresh content
-    
-    # Get url, site and domain by input
-    url, site, domain = String.fit_url(self.url_entry.text)
-    
+  def __process_site_checking(self, url, site):
     # Don't show loading bar
     with anvil.server.no_loading_indicator:
       database = anvil.server.call('database_check', url)
@@ -57,7 +51,7 @@ class Homepage(HomepageTemplate):
       self.database_check_label.text = "Сайт является проверенным"
       self.database_check_image.source = ContentManager.get_good_icon()
     elif database < 75:
-      self.database_check_label.text = "Сайт не быть похожим на популярный"
+      self.database_check_label.text = "Сайт не пытается быть похожим на популярный"
       self.database_check_image.source = ContentManager.get_good_icon()
     elif database > 75:
       self.database_check_label.text = "Сайт пытается быть похожим на популярный"
@@ -95,7 +89,10 @@ class Homepage(HomepageTemplate):
     with anvil.server.no_loading_indicator:
       # Check online rating
       rate = anvil.server.call('rating_check', site)
-    if rate < 3.5: # If rating is bad
+    if not rate: # If site have no rating
+      self.rating_check_label.text = "У сайта нет отзывов"
+      self.rating_check_image.source = ContentManager.get_warning_icon()
+    elif rate < 3.5: # If rating is bad
       self.rating_check_label.text = f"У сайта плохие отзывы ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_bad_icon()
     elif rate >= 3.5: # If rating is good
@@ -113,6 +110,15 @@ class Homepage(HomepageTemplate):
       self.users_rating_image.source = ContentManager.get_good_icon()
     elif site_rating < 0: # If site have a bad rating
       self.users_rating_image.source = ContentManager.get_bad_icon()
+    
+  # If user clicks process button
+  def process_checking_click(self, **event_args):
+    self.clear_content() # Refresh content
+    
+    # Get url, site and domain by input
+    url, site, _ = String.fit_url(self.url_entry.text)
+    
+    self.__process_site_checking(url, site)
       
     # Show rating widgets
     self.rate_this_site.visible = True

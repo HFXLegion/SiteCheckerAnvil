@@ -17,10 +17,10 @@ class HTMLParser(HTMLParserBase):
           if attribute[0] == "class" and attribute[1] == self.class_:
             self.__on_tag = True
             break
-        else:
-          if tag in self.tags:
-              self.__on_tag = True
-        return super().handle_starttag(tag, attrs)
+      else:
+        if tag in self.tags:
+            self.__on_tag = True
+      return super().handle_starttag(tag, attrs)
 
     def handle_data(self, data: str) -> None:
         if self.__on_tag:
