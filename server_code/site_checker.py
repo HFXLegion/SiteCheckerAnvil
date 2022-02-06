@@ -34,7 +34,7 @@ def content_check(url):
 @anvil.server.callable
 def rating_check(site):
     url = "https://www.mywot.com/scorecard/" + site  # Define URL with site rating
-    rating = 0
+    rating = -1
     for data in (SiteParser(url).find_all("div", "StyledScorecardHeader__Detail-sc-1j5xgrs-12 gfahVA")):
       try:
         rating = float(data)

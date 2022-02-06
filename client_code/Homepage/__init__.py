@@ -89,7 +89,7 @@ class Homepage(HomepageTemplate):
     with anvil.server.no_loading_indicator:
       # Check online rating
       rate = anvil.server.call('rating_check', site)
-    if not rate: # If site have no rating
+    if rate == -1: # If site have no rating
       self.rating_check_label.text = "У сайта нет отзывов"
       self.rating_check_image.source = ContentManager.get_warning_icon()
     elif rate < 3.5: # If rating is bad
