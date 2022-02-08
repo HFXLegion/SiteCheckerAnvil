@@ -47,15 +47,12 @@ class Homepage(HomepageTemplate):
     # Don't show loading bar
     with anvil.server.no_loading_indicator:
       database = anvil.server.call('database_check', url)
-    if not database:
-      self.database_check_label.text = "Сайт является проверенным"
+    if database < 75:
       self.database_check_image.source = ContentManager.get_good_icon()
-    elif database < 75:
       self.database_check_label.text = "Сайт не пытается быть похожим на популярный"
-      self.database_check_image.source = ContentManager.get_good_icon()
     elif database > 75:
-      self.database_check_label.text = "Сайт пытается быть похожим на популярный"
       self.database_check_image.source = ContentManager.get_bad_icon()
+      self.database_check_label.text = "Сайт пытается быть похожим на популярный"
     
     # Don't show loading bar
     with anvil.server.no_loading_indicator:
@@ -67,37 +64,37 @@ class Homepage(HomepageTemplate):
         self.database_check_image.source = ContentManager.get_bad_icon()
         return
     if "casino" in content: # If site looks like casino
+      self.ai_check_image.source = ContentManager.get_bad_icon()
       self.ai_check_label.text = "Сайт похож на казино"
-      self.ai_check_image.source = ContentManager.get_bad_icon()
     elif "scam" in content: # If site looks like scam
-      self.ai_check_label.text = "Сайт похож на лохотрон"
       self.ai_check_image.source = ContentManager.get_bad_icon()
+      self.ai_check_label.text = "Сайт похож на лохотрон"
     elif "market" in content: # If site looks like market
+      self.ai_check_image.source = ContentManager.get_good_icon()
       self.ai_check_label.text = "Сайт похож на интерент-магазин"
-      self.ai_check_image.source = ContentManager.get_good_icon()
     elif "search" in content: # If site looks like searching system
-      self.ai_check_label.text = "Сайт похож на поисковую систему"
       self.ai_check_image.source = ContentManager.get_good_icon()
+      self.ai_check_label.text = "Сайт похож на поисковую систему"
     elif "conn_err" in content: # If domain returns an error
       self.ai_check_label.text = "Сайт принудительно разорвал соединение"
       self.ai_check_image.source = ContentManager.get_warning_icon()
     else: # If system can't detect site type
-      self.ai_check_label.text = "Системе не удалось определить тип сайта"
       self.ai_check_image.source = ContentManager.get_warning_icon()
+      self.ai_check_label.text = "Системе не удалось определить тип сайта"
     
     # Don't show loading bar
     with anvil.server.no_loading_indicator:
       # Check online rating
       rate = anvil.server.call('rating_check', site)
     if rate == -1: # If site have no rating
-      self.rating_check_label.text = "У сайта нет отзывов"
       self.rating_check_image.source = ContentManager.get_warning_icon()
+      self.rating_check_label.text = "У сайта нет отзывов"
     elif rate < 3.5: # If rating is bad
-      self.rating_check_label.text = f"У сайта плохие отзывы ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_bad_icon()
+      self.rating_check_label.text = f"У сайта плохие отзывы ({rate} из 5)"
     elif rate >= 3.5: # If rating is good
-      self.rating_check_label.text = f"У сайта хорошие отзывы  ({rate} из 5)"
       self.rating_check_image.source = ContentManager.get_good_icon()
+      self.rating_check_label.text = f"У сайта хорошие отзывы  ({rate} из 5)"
     
     # Don't show loading bar
     with anvil.server.no_loading_indicator:
