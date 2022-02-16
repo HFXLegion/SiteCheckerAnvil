@@ -69,7 +69,8 @@ class SiteParser:
         return self.find_all(("h1", "h2", "h3", "h4", "h5", "h6"))
 
     def get_main_text(self):
-        return self.find_all(("title", "strong", "p", "h1", "h2", "h3", "h4", "h5", "h6"))
+        return self.find_all(("a", "span", "title", "strong", "p", "h1", "h2", "h3", "h4", "h5", "h6"))
+
 
     def get_all_text(self):
         return self.find_all(("a", "title", "p", "ul", "li", "div", "span", "strong", "h1", "h2", "h3", "h4", "h5", "h6"))

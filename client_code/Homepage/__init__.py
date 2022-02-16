@@ -39,7 +39,7 @@ class Homepage(HomepageTemplate):
   # Get logged user
   def get_user(self):
     if anvil.users.get_user() is None:
-      return anvil.users.login_with_form()
+      return anvil.users.login_with_form(allow_cancel=True)
     else:
       return anvil.users.get_user()
     
@@ -63,7 +63,13 @@ class Homepage(HomepageTemplate):
         self.database_check_label.text = "Ошибка при выполнении запроса"
         self.database_check_image.source = ContentManager.get_bad_icon()
         return
-    if "casino" in content: # If site looks like casino
+    if "bank" in content:
+      self.ai_check_image.source = ContentManager.get_good_icon()
+      self.ai_check_label.text = "Сайт похож на банк"
+    elif "credit_warn" in content:
+      self.ai_check_image.source = ContentManager.get_warning_icon()
+      self.ai_check_label.text = "Сайт похож на МФО"
+    elif "casino" in content: # If site looks like casino
       self.ai_check_image.source = ContentManager.get_bad_icon()
       self.ai_check_label.text = "Сайт похож на казино"
     elif "scam" in content: # If site looks like scam
@@ -75,6 +81,12 @@ class Homepage(HomepageTemplate):
     elif "search" in content: # If site looks like searching system
       self.ai_check_image.source = ContentManager.get_good_icon()
       self.ai_check_label.text = "Сайт похож на поисковую систему"
+    elif "bookmaker" in content:
+      self.ai_check_image.source = ContentManager.get_bad_icon()
+      self.ai_check_label.text = "Сайт похож на букмекерскую контору"
+    elif "soc_net" in content:
+      self.ai_check_image.source = ContentManager.get_good_icon()
+      self.ai_check_label.text = "Сайт похож на социальную сеть"
     elif "conn_err" in content: # If domain returns an error
       self.ai_check_label.text = "Сайт принудительно разорвал соединение"
       self.ai_check_image.source = ContentManager.get_warning_icon()
@@ -125,6 +137,8 @@ class Homepage(HomepageTemplate):
   # Rate current site
   def __rate_site(self, rate):
     current_user = self.get_user()
+    if current_user is None:
+      return
     site = String.fit_url(self.url_entry.text)[1]
     with anvil.server.no_loading_indicator:
       anvil.server.call('add_user_rating', site, current_user, rate)
